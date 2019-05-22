@@ -1,0 +1,172 @@
+package ezcinema;
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author isap
+ */
+public class Ezcinema {
+    public static String[] judFilm = {"Upin Ipin", "Iron Man 3", "Avengers End Game"};
+    public static String[][] st1 = new String[4][8];
+    public static String[][] st2 = new String[4][8];
+    public static String[][] st3 = new String[4][8];
+    public static String tmptDuduk[] = new String[32];
+    public static char[] abjad = {'A', 'B', 'C', 'D', 'E'};
+    public static int jumTiket, totHrgTiket;
+    
+    public static Scanner inInt = new Scanner(System.in);
+    public static Scanner inStr = new Scanner(System.in);
+    
+    public static void main(String[] args) {
+        ResSt(1);
+        ResSt(2);
+        ResSt(3);
+        int pilInt;
+        System.out.println("-=-=-=-= SELAMAT DATANG DI EZCINEMA -=-=-=-=");
+        System.out.println("1. Pesan Tiket");
+        System.out.println("2. Pesan Makanan");
+        System.out.println("3. Pesan Minuman");
+        System.out.print("-----> Masukkan Pilihan anda : ");
+        pilInt = inInt.nextInt();
+        switch(pilInt){
+            case 1 :
+                SelFilm();
+                break;
+        }
+    }
+    
+    public static void SelFilm(){
+        String pilStr = null;
+        int pilInt, x = 0;
+        do{
+            System.out.print("-----> Masukkan jumlah tiket (Rp.35000 / tiket) : ");
+            jumTiket = inInt.nextInt();
+            totHrgTiket = jumTiket * 35000;
+            System.out.println("-=-=-= Pilih Judul Film -=-=-=");
+            GetFilm();
+            System.out.print("-----> Masukkan Pilihan Anda : ");
+            pilInt = inInt.nextInt();
+            GetSt(pilInt);
+            do{
+                System.out.print("-----> Masukkan Kode tempat duduk : ");
+                tmptDuduk[x] = inStr.nextLine().toUpperCase();
+                x++;
+            }while(x < jumTiket);
+            x = 0;
+            SetSt(tmptDuduk, pilInt);
+            GetSt(pilInt);
+        }while(true);
+    }
+    
+    public static void GetFilm(){
+        for(int x = 0; x < judFilm.length; x++){
+            System.out.println((x+1) + ". " + judFilm[x]);
+        }
+    }
+    public static void GetSt(int index){
+        System.out.println("\n-=-=-= Studio "+ index +" -=-=-=");
+        switch(index){
+            case 1 :
+                for(int x = 0; x < 4; x++){
+                    for(int y = 0; y < 8; y++){
+                        System.out.print(st1[x][y] + " ");
+                    }
+                    System.out.println("");
+                }
+                break;
+            case 2 : 
+                for(int x = 0; x < 4; x++){
+                    for(int y = 0; y < 8; y++){
+                        System.out.print(st2[x][y] + " ");
+                    }
+                    System.out.println("");
+                }
+                break;
+            case 3 :
+                for(int x = 0; x < 4; x++){
+                    for(int y = 0; y < 8; y++){
+                        System.out.print(st3[x][y] + " ");
+                    }
+                    System.out.println("");
+                }
+                break;
+        }
+        
+    }
+    public static void SetSt(String[] tmptDuduk, int index){
+        switch(index){
+            case 1 :
+                for(int x = 0; x < tmptDuduk.length; x++){
+                    for(int y = 0; y < st1.length; y++){
+                        for(int z = 0; z < st1[0].length; z++){
+                            if(st1[y][z].matches("(.*)"+tmptDuduk[x]+"(.*)") == true){
+                                st1[y][z] = " " + tmptDuduk[x] + " ";
+                                break;
+                            }
+                        }
+                    }
+                }
+                break;
+            case 2 : 
+                for(int x = 0; x < tmptDuduk.length; x++){
+                    for(int y = 0; y < st2.length; y++){
+                        for(int z = 0; z < st2[0].length; z++){
+                            if(st2[y][z].matches("(.*)"+tmptDuduk[x]+"(.*)") == true){
+                                st2[y][z] = " " + tmptDuduk[x] + " ";
+                                break;
+                            }
+                        }
+                    }
+                }
+                break;
+            case 3 : 
+                for(int x = 0; x < tmptDuduk.length; x++){
+                    for(int y = 0; y < st3.length; y++){
+                        for(int z = 0; z < st3[0].length; z++){
+                            if(st3[y][z].matches("(.*)"+tmptDuduk[x]+"(.*)") == true){
+                                st3[y][z] = " " + tmptDuduk[x] + " ";
+                                break;
+                            }
+                        }
+                    }
+                }
+                break;
+        }
+        
+    }
+    public static boolean CheckSt(String tmptDuduk[]){
+        for(int x = 0; x < tmptDuduk.length; x++){
+            if(tmptDuduk[x].matches("\\[A-E][1-8]") == false){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static void ResSt(int index){
+        switch(index){
+            case 1 :
+                for(int x = 0; x < 4; x++){
+                    for(int y = 0; y < 8; y++){
+                        st1[x][y] = "["+abjad[x]+(y+1)+"]";
+                    }
+                }
+                break;
+            case 2 :
+                for(int x = 0; x < 4; x++){
+                    for(int y = 0; y < 8; y++){
+                        st2[x][y] = "["+abjad[x]+(y+1)+"]";
+                    }
+                }
+                break;
+            case 3 : 
+                for(int x = 0; x < 4; x++){
+                    for(int y = 0; y < 8; y++){
+                        st3[x][y] = "["+abjad[x]+(y+1)+"]";
+                    }
+                }
+                break;
+        }
+        
+    }
+}
