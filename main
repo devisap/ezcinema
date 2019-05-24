@@ -79,7 +79,41 @@ public class Ezcinema {
     }
     
     public static void SelMakanan(){
-        
+        String menu;
+        System.out.println("\n-=-=-=-= MENU MAKANAN -=-=-=-= ");
+        System.out.println("1.Soda                  Rp 20000");
+        System.out.println("2.Air Mineral           Rp 10000");
+        System.out.println("3.Es Teh                Rp 15000");
+
+        for (String i = "Y"; i.equals("Y")||i.equals("y");){
+            System.out.print("-----> Masukkan Nomor Pesanan : ");
+            int inNomor = inInt.nextInt();
+            if (inNomor == 1){
+                menu = " Soda ";
+                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                System.out.print("Jumlah Pesanan");
+                jumlah_pesanan = inInt.nextInt();
+                totHrgMakanan = totHrgMakanan + hrgMakanan[0]*jumlah_pesanan;
+            }else if (inNomor == 2){
+                menu = " Air Mineral ";
+                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                System.out.print("Jumlah Pesanan :");
+                jumlah_pesanan = inInt.nextInt();
+                totHrgMakanan = totHrgMakanan + hrgMakanan[1]*jumlah_pesanan;
+            }else if (inNomor == 3){
+                menu = " Es Teh ";
+                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                System.out.print("Jumlah Pesanan");
+                jumlah_pesanan = inInt.nextInt();
+                totHrgMakanan = totHrgMakanan + hrgMakanan[2]*jumlah_pesanan;
+            }else{
+                System.out.println("Nomor yang dipilih tidak ada di menu.");
+            }
+            System.out.print("Apakah anda mau melanjutkan (Y/T) ? : ");
+            i = inInt.next();
+        }
+        System.out.println(totHrgMakanan);
+        Menu();
     }
     public static void SelTiket(){
         int hslFilm = pilFilm;
