@@ -2,18 +2,27 @@ package ezcinema;
 
 import java.util.Scanner;
 
-/*
+/**
  *
  * @author isap
  */
 public class Ezcinema {
     public static String[] judFilm = {"Upin Ipin", "Iron Man 3", "Avengers End Game"};
+    public static String[] tglFilm = {"Wed, 20-Sep", "Wed, 25-Sep", "Wed, 20-Okt"};
+    public static String[] wktFilm = {"19:15", "20:50", "20:50"};
+    public static String[] Makanan = {"Soda","Air Mineral","Es Teh"};
+    public static String tmptDuduk[] = new String[32];
+    public static String ordMakanan[] = new String[10];
     public static String[][] st1 = new String[4][8];
     public static String[][] st2 = new String[4][8];
     public static String[][] st3 = new String[4][8];
-    public static String tmptDuduk[] = new String[32];
     public static char[] abjad = {'A', 'B', 'C', 'D', 'E'};
-    public static int jumTiket, totHrgTiket;
+    public static int[] hrgMakanan = {2000,10000,15000};
+    public static int ordHrgMakanan[] = new int[10];
+    public static int ordJumMakanan[] = new int[10];
+    public static int jumTiket, totHrgTiket, pilFilm;
+    public static int totHrgMakanan = 0, jumlah_pesanan;
+    public static int  indxSt = 0, indxMakanan = 0;
     
     public static Scanner inInt = new Scanner(System.in);
     public static Scanner inStr = new Scanner(System.in);
@@ -22,43 +31,73 @@ public class Ezcinema {
         ResSt(1);
         ResSt(2);
         ResSt(3);
+        Menu();
+    }
+    public static void Menu(){
         int pilInt;
-        System.out.println("-=-=-=-= SELAMAT DATANG DI EZCINEMA -=-=-=-=");
+        System.out.println("\n-=-=-=-= SELAMAT DATANG DI EZCINEMA -=-=-=-=");
         System.out.println("1. Pesan Tiket");
         System.out.println("2. Pesan Makanan");
         System.out.println("3. Pesan Minuman");
+        System.out.println("4. Cetak Tiket & Struk");
         System.out.print("-----> Masukkan Pilihan anda : ");
         pilInt = inInt.nextInt();
         switch(pilInt){
             case 1 :
-                SelFilm();
+                SelPesan();
+                break;
+            case 2 :
+                SelMakanan();
+                break;
+            case 4 :
+                SelTiket();
                 break;
         }
     }
-    
-    public static void SelFilm(){
+    public static void SelPesan(){
         String pilStr = null;
-        int pilInt, x = 0;
+        int x = 0;
+        int jml;
+        System.out.println("\n-=-=-= Pilih Judul Film -=-=-=");
+        GetFilm();
+        System.out.print("-----> Masukkan Pilihan Anda : ");
+        pilFilm = inInt.nextInt();
+        System.out.print("-----> Masukkan jumlah tiket (Rp.35000 / tiket) : ");
+        jml = inInt.nextInt();
+        jumTiket += jml;
+        totHrgTiket = jumTiket * 35000;
+        GetSt(pilFilm);
         do{
-            System.out.print("-----> Masukkan jumlah tiket (Rp.35000 / tiket) : ");
-            jumTiket = inInt.nextInt();
-            totHrgTiket = jumTiket * 35000;
-            System.out.println("-=-=-= Pilih Judul Film -=-=-=");
-            GetFilm();
-            System.out.print("-----> Masukkan Pilihan Anda : ");
-            pilInt = inInt.nextInt();
-            GetSt(pilInt);
-            do{
-                System.out.print("-----> Masukkan Kode tempat duduk : ");
-                tmptDuduk[x] = inStr.nextLine().toUpperCase();
-                x++;
-            }while(x < jumTiket);
-            x = 0;
-            SetSt(tmptDuduk, pilInt);
-            GetSt(pilInt);
-        }while(true);
+            System.out.print("-----> Masukkan Kode Tempat Duduk : ");
+            tmptDuduk[indxSt] = inStr.nextLine().toUpperCase();
+            indxSt++;
+            x++;
+        }while(x < jml);
+        x = 0;
+        SetSt(tmptDuduk, pilFilm);
+        Menu();
     }
     
+    public static void SelMakanan(){
+        
+    }
+    public static void SelTiket(){
+        int hslFilm = pilFilm;
+        String namaFilm = judFilm[hslFilm];
+        for(int x = 0; x < jumTiket; x++){
+            System.out.println("\n\n-=-=-=-= TIKET EZCINEMA -=-=-=-=");
+            System.out.println(namaFilm.toUpperCase());
+            System.out.println("TANGGAL   : " + tglFilm[hslFilm]);
+            System.out.println("WAKTU     : " + wktFilm[hslFilm]);
+            System.out.println("BANGKU    : " + tmptDuduk[x]);
+            System.out.println("STUDIO    : " + pilFilm);
+            System.out.println("-=-=-=-= TIKET EZCINEMA -=-=-=-=");
+        }
+        System.out.println("\n          --- STRUK PEMBAYARAN ---");
+        System.out.println("              --- EZCINEMA ---");
+        System.out.println("\nNo     Keterangan      Jumlah       Harga");
+        System.out.println("1.     Tiket           " + jumTiket + "           Rp." + totHrgTiket);
+    }
     public static void GetFilm(){
         for(int x = 0; x < judFilm.length; x++){
             System.out.println((x+1) + ". " + judFilm[x]);
