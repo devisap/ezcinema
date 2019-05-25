@@ -2,27 +2,28 @@ package ezcinema;
 
 import java.util.Scanner;
 
-/**
- *
- * @author isap
- */
 public class Ezcinema {
     public static String[] judFilm = {"Upin Ipin", "Iron Man 3", "Avengers End Game"};
     public static String[] tglFilm = {"Wed, 20-Sep", "Wed, 25-Sep", "Wed, 20-Okt"};
     public static String[] wktFilm = {"19:15", "20:50", "20:50"};
-    public static String[] Makanan = {"Soda","Air Mineral","Es Teh"};
+    public static String[] Minuman = {"Soda","Air Mineral","Es Teh"};
+    public static String[] Makanan = {"Pop Corn Asin","Pop Corn Karamel","Roti Keju","Sosis"};
     public static String tmptDuduk[] = new String[32];
     public static String ordMakanan[] = new String[10];
     public static String[][] st1 = new String[4][8];
     public static String[][] st2 = new String[4][8];
     public static String[][] st3 = new String[4][8];
     public static char[] abjad = {'A', 'B', 'C', 'D', 'E'};
-    public static int[] hrgMakanan = {2000,10000,15000};
+    public static int[] hrgMinuman = {20000,10000,15000};
+    public static int[] hrgMakanan = {35000,40000,10000,15000};
     public static int ordHrgMakanan[] = new int[10];
     public static int ordJumMakanan[] = new int[10];
+    public static int ordHrgMinuman[] = new int[10];
+    public static int ordJumMinuman[] = new int[10];
     public static int jumTiket, totHrgTiket, pilFilm;
-    public static int totHrgMakanan = 0, jumlah_pesanan;
-    public static int  indxSt = 0, indxMakanan = 0;
+    public static int totHrgMakanan = 0, jumlah_pesanan_Makanan;
+    public static int totHrgMinuman = 0, jumlah_pesanan_Minuman;
+    public static int  indxSt = 0, indxMakanan = 0, indxMinuman = 0;
     
     public static Scanner inInt = new Scanner(System.in);
     public static Scanner inStr = new Scanner(System.in);
@@ -31,6 +32,7 @@ public class Ezcinema {
         ResSt(1);
         ResSt(2);
         ResSt(3);
+        ResSt(4);
         Menu();
     }
     public static void Menu(){
@@ -48,6 +50,9 @@ public class Ezcinema {
                 break;
             case 2 :
                 SelMakanan();
+                break;
+            case 3 :
+                SelMinuman();
                 break;
             case 4 :
                 SelTiket();
@@ -81,6 +86,53 @@ public class Ezcinema {
     public static void SelMakanan(){
         String menu;
         System.out.println("\n-=-=-=-= MENU MAKANAN -=-=-=-= ");
+        System.out.println("1.Pop Corn Asin        Rp 35000");
+        System.out.println("2.Pop Corn Karamel     Rp 40000");
+        System.out.println("3.Roti Keju            Rp 10000");
+        System.out.println("4.Sosis                Rp 15000");
+        System.out.println("");
+
+        for (String i = "Y"; i.equals("Y")||i.equals("y");){
+            System.out.print("-----> Masukkan Nomor Pesanan : ");
+            int inNomor = inInt.nextInt();
+            if (inNomor == 1){
+                menu = " Pop Corn Asin ";
+                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                System.out.print("Jumlah Pesanan");
+                jumlah_pesanan_Makanan = inInt.nextInt();
+                totHrgMakanan = totHrgMakanan + hrgMakanan[0]*jumlah_pesanan_Makanan;
+            }else if (inNomor == 2){
+                menu = " Pop Corn Karamel ";
+                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                System.out.print("Jumlah Pesanan :");
+                jumlah_pesanan_Makanan = inInt.nextInt();
+                totHrgMakanan = totHrgMakanan + hrgMakanan[1]*jumlah_pesanan_Makanan;
+            }else if (inNomor == 3){
+                menu = " Roti keju ";
+                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                System.out.print("Jumlah Pesanan :");
+                jumlah_pesanan_Makanan = inInt.nextInt();
+                totHrgMakanan = totHrgMakanan + hrgMakanan[2]*jumlah_pesanan_Makanan;
+            }else if (inNomor == 4){
+                menu = " Sosis ";
+                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                System.out.print("Jumlah Pesanan");
+                jumlah_pesanan_Makanan = inInt.nextInt();
+                totHrgMakanan = totHrgMakanan + hrgMakanan[3]*jumlah_pesanan_Makanan;
+            }else{
+                System.out.println("Nomor yang dipilih tidak ada di menu.");
+            }
+            System.out.print("Apakah anda mau melanjutkan (Y/T) ? : ");
+            i = inInt.next();
+        }
+        System.out.println(totHrgMakanan);
+        Menu();
+      }
+        
+
+        public static void SelMinuman(){
+        String menu;
+        System.out.println("\n-=-=-=-= MENU MINUMAN -=-=-=-= ");
         System.out.println("1.Soda                  Rp 20000");
         System.out.println("2.Air Mineral           Rp 10000");
         System.out.println("3.Es Teh                Rp 15000");
@@ -92,29 +144,31 @@ public class Ezcinema {
                 menu = " Soda ";
                 System.out.println("Pilihan anda nomor " +inNomor + menu);
                 System.out.print("Jumlah Pesanan");
-                jumlah_pesanan = inInt.nextInt();
-                totHrgMakanan = totHrgMakanan + hrgMakanan[0]*jumlah_pesanan;
+                jumlah_pesanan_Minuman = inInt.nextInt();
+                totHrgMinuman = totHrgMinuman + hrgMinuman[0]*jumlah_pesanan_Minuman;
             }else if (inNomor == 2){
                 menu = " Air Mineral ";
                 System.out.println("Pilihan anda nomor " +inNomor + menu);
                 System.out.print("Jumlah Pesanan :");
-                jumlah_pesanan = inInt.nextInt();
-                totHrgMakanan = totHrgMakanan + hrgMakanan[1]*jumlah_pesanan;
+                jumlah_pesanan_Minuman = inInt.nextInt();
+                totHrgMinuman = totHrgMinuman + hrgMinuman[1]*jumlah_pesanan_Minuman;
             }else if (inNomor == 3){
                 menu = " Es Teh ";
                 System.out.println("Pilihan anda nomor " +inNomor + menu);
                 System.out.print("Jumlah Pesanan");
-                jumlah_pesanan = inInt.nextInt();
-                totHrgMakanan = totHrgMakanan + hrgMakanan[2]*jumlah_pesanan;
+                jumlah_pesanan_Minuman = inInt.nextInt();
+                totHrgMinuman = totHrgMinuman + hrgMinuman[2]*jumlah_pesanan_Minuman;
             }else{
                 System.out.println("Nomor yang dipilih tidak ada di menu.");
             }
             System.out.print("Apakah anda mau melanjutkan (Y/T) ? : ");
             i = inInt.next();
         }
-        System.out.println(totHrgMakanan);
+        System.out.println(totHrgMinuman);
         Menu();
+   
     }
+    
     public static void SelTiket(){
         int hslFilm = pilFilm;
         String namaFilm = judFilm[hslFilm];
