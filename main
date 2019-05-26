@@ -26,6 +26,8 @@ public class Ezcinema {
     public static int totHrgMakanan;
     public static int totHrgMinuman;
     public static int indxSt, indxMakanan, indxMinuman;
+    public static int jumDiskon1 = 10, jumDiskon2 = 10, jumDiskon3 = 10;
+    public static boolean isDiskon = false;
 
     public static Scanner inInt = new Scanner(System.in);
     public static Scanner inStr = new Scanner(System.in);
@@ -79,7 +81,7 @@ public class Ezcinema {
         System.out.print("-----> Masukkan jumlah tiket (Rp.35000 / tiket) : ");
         jml = inInt.nextInt();
         jumTiket += jml;
-        totHrgTiket += jumTiket * 35000;
+        CheckDiskon(pilFilm);
         GetSt(pilFilm);
         do {
             System.out.print("-----> Masukkan Kode Tempat Duduk : ");
@@ -216,7 +218,11 @@ public class Ezcinema {
         System.out.println("\nNo     Keterangan      Jumlah       Harga");
 
         if (jumTiket != 0) {
-            System.out.println(z + ".     Tiket           " + jumTiket + "           Rp." + totHrgTiket);
+            if(isDiskon == true){
+                System.out.println(z + ".    Tiket(Diskon 30%)" + jumTiket + "           Rp." + totHrgTiket);
+            }else{
+                System.out.println(z + ".     Tiket           " + jumTiket + "           Rp." + totHrgTiket);
+            }
             z++;
         }
 
@@ -324,7 +330,40 @@ public class Ezcinema {
         }
         return true;
     }
-
+    public static void CheckDiskon(int pilFilm){
+        switch(pilFilm){
+            case 1 :
+                if(jumDiskon1 > 0){
+                    System.out.println("\n!!! SELAMAT ANDA MENDAPATAKAN DISKON !!!");
+                    totHrgTiket += jumTiket * (35000 * 0.7);
+                    isDiskon = true;
+                    jumDiskon1--;
+                }else {
+                    totHrgTiket += jumTiket * 35000;
+                }
+                break;
+            case 2 :
+                if(jumDiskon2 > 0){
+                    System.out.println("\n!!! SELAMAT ANDA MENDAPATAKAN DISKON !!!");
+                    totHrgTiket += jumTiket * (35000 * 0.7);
+                    isDiskon = true;
+                    jumDiskon1--;
+                }else{
+                    totHrgTiket += jumTiket * 35000;
+                }
+                break;
+            case 3 :
+                if(jumDiskon3 > 0){
+                    System.out.println("\n!!! SELAMAT ANDA MENDAPATAKAN DISKON !!!");
+                    totHrgTiket += jumTiket * (35000 * 0.7);
+                    isDiskon = true;
+                    jumDiskon1--;
+                }else{
+                    totHrgTiket += jumTiket * 35000;
+                }
+                break;
+        }
+    }
     public static void ResSt(int index) {
         switch (index) {
             case 1:
@@ -333,6 +372,7 @@ public class Ezcinema {
                         st1[x][y] = "[" + abjad[x] + (y + 1) + "]";
                     }
                 }
+                jumDiskon1 = 10;
                 break;
             case 2:
                 for (int x = 0; x < 4; x++) {
@@ -340,6 +380,7 @@ public class Ezcinema {
                         st2[x][y] = "[" + abjad[x] + (y + 1) + "]";
                     }
                 }
+                jumDiskon2 = 10;
                 break;
             case 3:
                 for (int x = 0; x < 4; x++) {
@@ -347,6 +388,7 @@ public class Ezcinema {
                         st3[x][y] = "[" + abjad[x] + (y + 1) + "]";
                     }
                 }
+                jumDiskon3 = 10;
                 break;
         }
     }
@@ -359,6 +401,7 @@ public class Ezcinema {
         indxSt = 0;
         indxMakanan = 0;
         indxMinuman = 0;
+        isDiskon = false;
         for(int x = 0; x < tmptDuduk.length; x++){
             tmptDuduk[x] = "";
         }
