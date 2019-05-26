@@ -3,39 +3,47 @@ package ezcinema;
 import java.util.Scanner;
 
 public class Ezcinema {
+
     public static String[] judFilm = {"Upin Ipin", "Iron Man 3", "Avengers End Game"};
     public static String[] tglFilm = {"Wed, 20-Sep", "Wed, 25-Sep", "Wed, 20-Okt"};
     public static String[] wktFilm = {"19:15", "20:50", "20:50"};
-    public static String[] Minuman = {"Soda","Air Mineral","Es Teh"};
-    public static String[] Makanan = {"Pop Corn Asin","Pop Corn Karamel","Roti Keju","Sosis"};
+    public static String[] Minuman = {"Soda", "Air Mineral", "Es Teh"};
+    public static String[] Makanan = {"Pop Corn Asin", "Pop Corn Karamel", "Roti Keju", "Sosis"};
     public static String tmptDuduk[] = new String[32];
     public static String ordMakanan[] = new String[10];
+    public static String ordMinuman[] = new String[10];
     public static String[][] st1 = new String[4][8];
     public static String[][] st2 = new String[4][8];
     public static String[][] st3 = new String[4][8];
     public static char[] abjad = {'A', 'B', 'C', 'D', 'E'};
-    public static int[] hrgMinuman = {20000,10000,15000};
-    public static int[] hrgMakanan = {35000,40000,10000,15000};
+    public static int[] hrgMinuman = {20000, 10000, 15000};
+    public static int[] hrgMakanan = {35000, 40000, 10000, 15000};
     public static int ordHrgMakanan[] = new int[10];
     public static int ordJumMakanan[] = new int[10];
     public static int ordHrgMinuman[] = new int[10];
     public static int ordJumMinuman[] = new int[10];
     public static int jumTiket, totHrgTiket, pilFilm;
-    public static int totHrgMakanan = 0, jumlah_pesanan_Makanan;
-    public static int totHrgMinuman = 0, jumlah_pesanan_Minuman;
-    public static int  indxSt = 0, indxMakanan = 0, indxMinuman = 0;
-    
+    public static int totHrgMakanan;
+    public static int totHrgMinuman;
+    public static int indxSt, indxMakanan, indxMinuman;
+
     public static Scanner inInt = new Scanner(System.in);
     public static Scanner inStr = new Scanner(System.in);
-    
+
     public static void main(String[] args) {
         ResSt(1);
         ResSt(2);
         ResSt(3);
-        ResSt(4);
+        ResVariable();
         Menu();
     }
-    public static void Menu(){
+    public static void AwalMenu(){
+        do{
+            Menu();
+        }while(true);
+    }
+
+    public static void Menu() {
         int pilInt;
         System.out.println("\n-=-=-=-= SELAMAT DATANG DI EZCINEMA -=-=-=-=");
         System.out.println("1. Pesan Tiket");
@@ -44,22 +52,23 @@ public class Ezcinema {
         System.out.println("4. Cetak Tiket & Struk");
         System.out.print("-----> Masukkan Pilihan anda : ");
         pilInt = inInt.nextInt();
-        switch(pilInt){
-            case 1 :
+        switch (pilInt) {
+            case 1:
                 SelPesan();
                 break;
-            case 2 :
+            case 2:
                 SelMakanan();
                 break;
-            case 3 :
+            case 3:
                 SelMinuman();
                 break;
-            case 4 :
+            case 4:
                 SelTiket();
                 break;
         }
     }
-    public static void SelPesan(){
+
+    public static void SelPesan() {
         String pilStr = null;
         int x = 0;
         int jml;
@@ -70,20 +79,20 @@ public class Ezcinema {
         System.out.print("-----> Masukkan jumlah tiket (Rp.35000 / tiket) : ");
         jml = inInt.nextInt();
         jumTiket += jml;
-        totHrgTiket = jumTiket * 35000;
+        totHrgTiket += jumTiket * 35000;
         GetSt(pilFilm);
-        do{
+        do {
             System.out.print("-----> Masukkan Kode Tempat Duduk : ");
             tmptDuduk[indxSt] = inStr.nextLine().toUpperCase();
             indxSt++;
             x++;
-        }while(x < jml);
+        } while (x < jml);
         x = 0;
         SetSt(tmptDuduk, pilFilm);
         Menu();
     }
-    
-    public static void SelMakanan(){
+
+    public static void SelMakanan() {
         String menu;
         System.out.println("\n-=-=-=-= MENU MAKANAN -=-=-=-= ");
         System.out.println("1.Pop Corn Asin        Rp 35000");
@@ -92,34 +101,46 @@ public class Ezcinema {
         System.out.println("4.Sosis                Rp 15000");
         System.out.println("");
 
-        for (String i = "Y"; i.equals("Y")||i.equals("y");){
+        for (String i = "Y"; i.equals("Y") || i.equals("y");) {
             System.out.print("-----> Masukkan Nomor Pesanan : ");
             int inNomor = inInt.nextInt();
-            if (inNomor == 1){
-                menu = " Pop Corn Asin ";
-                System.out.println("Pilihan anda nomor " +inNomor + menu);
+            if (inNomor == 1) {
+                menu = "Pop Corn Asin";
+                System.out.println("Pilihan anda nomor " + inNomor + menu);
                 System.out.print("Jumlah Pesanan");
-                jumlah_pesanan_Makanan = inInt.nextInt();
-                totHrgMakanan = totHrgMakanan + hrgMakanan[0]*jumlah_pesanan_Makanan;
-            }else if (inNomor == 2){
-                menu = " Pop Corn Karamel ";
-                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                ordMakanan[indxMakanan] = menu;
+                ordJumMakanan[indxMakanan] = inInt.nextInt();
+                ordHrgMakanan[indxMakanan] = hrgMakanan[0];
+                totHrgMakanan = totHrgMakanan + ordHrgMakanan[indxMakanan] * ordJumMakanan[indxMakanan];
+                indxMakanan++;
+            } else if (inNomor == 2) {
+                menu = "Pop Corn Karamel";
+                System.out.println("Pilihan anda nomor " + inNomor + menu);
                 System.out.print("Jumlah Pesanan :");
-                jumlah_pesanan_Makanan = inInt.nextInt();
-                totHrgMakanan = totHrgMakanan + hrgMakanan[1]*jumlah_pesanan_Makanan;
-            }else if (inNomor == 3){
-                menu = " Roti keju ";
-                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                ordMakanan[indxMakanan] = menu;
+                ordJumMakanan[indxMakanan] = inInt.nextInt();
+                ordHrgMakanan[indxMakanan] = hrgMakanan[1];
+                totHrgMakanan = totHrgMakanan + ordHrgMakanan[indxMakanan] * ordJumMakanan[indxMakanan];
+                indxMakanan++;
+            } else if (inNomor == 3) {
+                menu = "Roti keju";
+                System.out.println("Pilihan anda nomor " + inNomor + menu);
                 System.out.print("Jumlah Pesanan :");
-                jumlah_pesanan_Makanan = inInt.nextInt();
-                totHrgMakanan = totHrgMakanan + hrgMakanan[2]*jumlah_pesanan_Makanan;
-            }else if (inNomor == 4){
-                menu = " Sosis ";
-                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                ordMakanan[indxMakanan] = menu;
+                ordJumMakanan[indxMakanan] = inInt.nextInt();
+                ordHrgMakanan[indxMakanan] = hrgMakanan[2];
+                totHrgMakanan = totHrgMakanan + ordHrgMakanan[indxMakanan] * ordJumMakanan[indxMakanan];
+                indxMakanan++;
+            } else if (inNomor == 4) {
+                menu = "Sosis";
+                System.out.println("Pilihan anda nomor " + inNomor + menu);
                 System.out.print("Jumlah Pesanan");
-                jumlah_pesanan_Makanan = inInt.nextInt();
-                totHrgMakanan = totHrgMakanan + hrgMakanan[3]*jumlah_pesanan_Makanan;
-            }else{
+                ordMakanan[indxMakanan] = menu;
+                ordJumMakanan[indxMakanan] = inInt.nextInt();
+                ordHrgMakanan[indxMakanan] = hrgMakanan[3];
+                totHrgMakanan = totHrgMakanan + ordHrgMakanan[indxMakanan] * ordJumMakanan[indxMakanan];
+                indxMakanan++;
+            } else {
                 System.out.println("Nomor yang dipilih tidak ada di menu.");
             }
             System.out.print("Apakah anda mau melanjutkan (Y/T) ? : ");
@@ -127,38 +148,46 @@ public class Ezcinema {
         }
         System.out.println(totHrgMakanan);
         Menu();
-      }
-        
+    }
 
-        public static void SelMinuman(){
+    public static void SelMinuman() {
         String menu;
         System.out.println("\n-=-=-=-= MENU MINUMAN -=-=-=-= ");
         System.out.println("1.Soda                  Rp 20000");
         System.out.println("2.Air Mineral           Rp 10000");
         System.out.println("3.Es Teh                Rp 15000");
 
-        for (String i = "Y"; i.equals("Y")||i.equals("y");){
+        for (String i = "Y"; i.equals("Y") || i.equals("y");) {
             System.out.print("-----> Masukkan Nomor Pesanan : ");
             int inNomor = inInt.nextInt();
-            if (inNomor == 1){
+            if (inNomor == 1) {
                 menu = " Soda ";
-                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                System.out.println("Pilihan anda nomor " + inNomor + menu);
                 System.out.print("Jumlah Pesanan");
-                jumlah_pesanan_Minuman = inInt.nextInt();
-                totHrgMinuman = totHrgMinuman + hrgMinuman[0]*jumlah_pesanan_Minuman;
-            }else if (inNomor == 2){
+                ordMinuman[indxMinuman] = menu;
+                ordJumMinuman[indxMinuman] = inInt.nextInt();
+                ordHrgMinuman[indxMinuman] = hrgMinuman[0];
+                totHrgMinuman = totHrgMinuman + ordHrgMinuman[indxMinuman] * ordJumMinuman[indxMinuman];
+                indxMinuman++;
+            } else if (inNomor == 2) {
                 menu = " Air Mineral ";
-                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                System.out.println("Pilihan anda nomor " + inNomor + menu);
                 System.out.print("Jumlah Pesanan :");
-                jumlah_pesanan_Minuman = inInt.nextInt();
-                totHrgMinuman = totHrgMinuman + hrgMinuman[1]*jumlah_pesanan_Minuman;
-            }else if (inNomor == 3){
+                ordMinuman[indxMinuman] = menu;
+                ordJumMinuman[indxMinuman] = inInt.nextInt();
+                ordHrgMinuman[indxMinuman] = hrgMinuman[1];
+                totHrgMinuman = totHrgMinuman + ordHrgMinuman[indxMinuman] * ordJumMinuman[indxMinuman];
+                indxMinuman++;
+            } else if (inNomor == 3) {
                 menu = " Es Teh ";
-                System.out.println("Pilihan anda nomor " +inNomor + menu);
+                System.out.println("Pilihan anda nomor " + inNomor + menu);
                 System.out.print("Jumlah Pesanan");
-                jumlah_pesanan_Minuman = inInt.nextInt();
-                totHrgMinuman = totHrgMinuman + hrgMinuman[2]*jumlah_pesanan_Minuman;
-            }else{
+                ordMinuman[indxMinuman] = menu;
+                ordJumMinuman[indxMinuman] = inInt.nextInt();
+                ordHrgMinuman[indxMinuman] = hrgMinuman[2];
+                totHrgMinuman = totHrgMinuman + ordHrgMinuman[indxMinuman] * ordJumMinuman[indxMinuman];
+                indxMinuman++;
+            } else {
                 System.out.println("Nomor yang dipilih tidak ada di menu.");
             }
             System.out.print("Apakah anda mau melanjutkan (Y/T) ? : ");
@@ -166,13 +195,14 @@ public class Ezcinema {
         }
         System.out.println(totHrgMinuman);
         Menu();
-   
+
     }
-    
-    public static void SelTiket(){
-        int hslFilm = pilFilm;
+
+    public static void SelTiket() {
+        int hslFilm = pilFilm-1;
+        int z = 1;
         String namaFilm = judFilm[hslFilm];
-        for(int x = 0; x < jumTiket; x++){
+        for (int x = 0; x < jumTiket; x++) {
             System.out.println("\n\n-=-=-=-= TIKET EZCINEMA -=-=-=-=");
             System.out.println(namaFilm.toUpperCase());
             System.out.println("TANGGAL   : " + tglFilm[hslFilm]);
@@ -184,50 +214,73 @@ public class Ezcinema {
         System.out.println("\n          --- STRUK PEMBAYARAN ---");
         System.out.println("              --- EZCINEMA ---");
         System.out.println("\nNo     Keterangan      Jumlah       Harga");
-        System.out.println("1.     Tiket           " + jumTiket + "           Rp." + totHrgTiket);
+
+        if (jumTiket != 0) {
+            System.out.println(z + ".     Tiket           " + jumTiket + "           Rp." + totHrgTiket);
+            z++;
+        }
+
+        for (int x = 0; x < ordMakanan.length; x++) {
+            if (ordMakanan[x] != "") {
+                System.out.println(z + ".     " + ordMakanan[x] + "           " + ordJumMakanan[x] + "           Rp." + (ordHrgMakanan[x] * ordJumMakanan[x]));
+                z++;
+            }
+        }
+        for (int x = 0; x < ordMinuman.length; x++) {
+            if (ordMinuman[x] != "") {
+                System.out.println(z + ".     " + ordMinuman[x] + "           " + ordJumMinuman[x] + "           Rp." + (ordHrgMinuman[x] * ordJumMinuman[x]));
+                z++;
+            }
+        }
+        System.out.println("Total Pembelian : Rp." + (totHrgMakanan+totHrgMinuman+totHrgTiket));
+        ResVariable();
+        AwalMenu();
     }
-    public static void GetFilm(){
-        for(int x = 0; x < judFilm.length; x++){
-            System.out.println((x+1) + ". " + judFilm[x]);
+
+    public static void GetFilm() {
+        for (int x = 0; x < judFilm.length; x++) {
+            System.out.println((x + 1) + ". " + judFilm[x]);
         }
     }
-    public static void GetSt(int index){
-        System.out.println("\n-=-=-= Studio "+ index +" -=-=-=");
-        switch(index){
-            case 1 :
-                for(int x = 0; x < 4; x++){
-                    for(int y = 0; y < 8; y++){
+
+    public static void GetSt(int index) {
+        System.out.println("\n-=-=-= Studio " + index + " -=-=-=");
+        switch (index) {
+            case 1:
+                for (int x = 0; x < 4; x++) {
+                    for (int y = 0; y < 8; y++) {
                         System.out.print(st1[x][y] + " ");
                     }
                     System.out.println("");
                 }
                 break;
-            case 2 : 
-                for(int x = 0; x < 4; x++){
-                    for(int y = 0; y < 8; y++){
+            case 2:
+                for (int x = 0; x < 4; x++) {
+                    for (int y = 0; y < 8; y++) {
                         System.out.print(st2[x][y] + " ");
                     }
                     System.out.println("");
                 }
                 break;
-            case 3 :
-                for(int x = 0; x < 4; x++){
-                    for(int y = 0; y < 8; y++){
+            case 3:
+                for (int x = 0; x < 4; x++) {
+                    for (int y = 0; y < 8; y++) {
                         System.out.print(st3[x][y] + " ");
                     }
                     System.out.println("");
                 }
                 break;
         }
-        
+
     }
-    public static void SetSt(String[] tmptDuduk, int index){
-        switch(index){
-            case 1 :
-                for(int x = 0; x < tmptDuduk.length; x++){
-                    for(int y = 0; y < st1.length; y++){
-                        for(int z = 0; z < st1[0].length; z++){
-                            if(st1[y][z].matches("(.*)"+tmptDuduk[x]+"(.*)") == true){
+
+    public static void SetSt(String[] tmptDuduk, int index) {
+        switch (index) {
+            case 1:
+                for (int x = 0; x < tmptDuduk.length; x++) {
+                    for (int y = 0; y < st1.length; y++) {
+                        for (int z = 0; z < st1[0].length; z++) {
+                            if (st1[y][z].matches("(.*)" + tmptDuduk[x] + "(.*)") == true && tmptDuduk[x] != "") {
                                 st1[y][z] = " " + tmptDuduk[x] + " ";
                                 break;
                             }
@@ -235,11 +288,11 @@ public class Ezcinema {
                     }
                 }
                 break;
-            case 2 : 
-                for(int x = 0; x < tmptDuduk.length; x++){
-                    for(int y = 0; y < st2.length; y++){
-                        for(int z = 0; z < st2[0].length; z++){
-                            if(st2[y][z].matches("(.*)"+tmptDuduk[x]+"(.*)") == true){
+            case 2:
+                for (int x = 0; x < tmptDuduk.length; x++) {
+                    for (int y = 0; y < st2.length; y++) {
+                        for (int z = 0; z < st2[0].length; z++) {
+                            if (st2[y][z].matches("(.*)" + tmptDuduk[x] + "(.*)") == true && tmptDuduk[x] != "") {
                                 st2[y][z] = " " + tmptDuduk[x] + " ";
                                 break;
                             }
@@ -247,11 +300,11 @@ public class Ezcinema {
                     }
                 }
                 break;
-            case 3 : 
-                for(int x = 0; x < tmptDuduk.length; x++){
-                    for(int y = 0; y < st3.length; y++){
-                        for(int z = 0; z < st3[0].length; z++){
-                            if(st3[y][z].matches("(.*)"+tmptDuduk[x]+"(.*)") == true){
+            case 3:
+                for (int x = 0; x < tmptDuduk.length; x++) {
+                    for (int y = 0; y < st3.length; y++) {
+                        for (int z = 0; z < st3[0].length; z++) {
+                            if (st3[y][z].matches("(.*)" + tmptDuduk[x] + "(.*)") == true && tmptDuduk[x] != "") {
                                 st3[y][z] = " " + tmptDuduk[x] + " ";
                                 break;
                             }
@@ -260,40 +313,72 @@ public class Ezcinema {
                 }
                 break;
         }
-        
+
     }
-    public static boolean CheckSt(String tmptDuduk[]){
-        for(int x = 0; x < tmptDuduk.length; x++){
-            if(tmptDuduk[x].matches("\\[A-E][1-8]") == false){
+
+    public static boolean CheckSt(String tmptDuduk[]) {
+        for (int x = 0; x < tmptDuduk.length; x++) {
+            if (tmptDuduk[x].matches("\\[A-E][1-8]") == false) {
                 return false;
             }
         }
         return true;
     }
-    public static void ResSt(int index){
-        switch(index){
-            case 1 :
-                for(int x = 0; x < 4; x++){
-                    for(int y = 0; y < 8; y++){
-                        st1[x][y] = "["+abjad[x]+(y+1)+"]";
+
+    public static void ResSt(int index) {
+        switch (index) {
+            case 1:
+                for (int x = 0; x < 4; x++) {
+                    for (int y = 0; y < 8; y++) {
+                        st1[x][y] = "[" + abjad[x] + (y + 1) + "]";
                     }
                 }
                 break;
-            case 2 :
-                for(int x = 0; x < 4; x++){
-                    for(int y = 0; y < 8; y++){
-                        st2[x][y] = "["+abjad[x]+(y+1)+"]";
+            case 2:
+                for (int x = 0; x < 4; x++) {
+                    for (int y = 0; y < 8; y++) {
+                        st2[x][y] = "[" + abjad[x] + (y + 1) + "]";
                     }
                 }
                 break;
-            case 3 : 
-                for(int x = 0; x < 4; x++){
-                    for(int y = 0; y < 8; y++){
-                        st3[x][y] = "["+abjad[x]+(y+1)+"]";
+            case 3:
+                for (int x = 0; x < 4; x++) {
+                    for (int y = 0; y < 8; y++) {
+                        st3[x][y] = "[" + abjad[x] + (y + 1) + "]";
                     }
                 }
                 break;
         }
-        
+    }
+    public static void ResVariable(){
+        jumTiket = 0;
+        totHrgTiket = 0;
+        pilFilm = 1;
+        totHrgMakanan = 0;
+        totHrgMinuman = 0;
+        indxSt = 0;
+        indxMakanan = 0;
+        indxMinuman = 0;
+        for(int x = 0; x < tmptDuduk.length; x++){
+            tmptDuduk[x] = "";
+        }
+        for(int x = 0; x < ordMakanan.length; x++){
+            ordMakanan[x] = "";
+        }
+        for(int x = 0; x < ordMinuman.length; x++){
+            ordMinuman[x] = "";
+        }
+        for(int x = 0; x < ordHrgMakanan.length; x++){
+            ordHrgMakanan[x] = 0;
+        }
+        for(int x = 0; x < ordHrgMinuman.length; x++){
+            ordHrgMinuman[x] = 0;
+        }
+        for(int x = 0; x < ordJumMakanan.length; x++){
+            ordHrgMinuman[x] = 0;
+        }
+        for(int x = 0; x < ordJumMinuman.length; x++){
+            ordHrgMinuman[x] = 0;
+        }
     }
 }
