@@ -1,15 +1,14 @@
 package ezcinema;
 
-import java.util.Arrays;
 import java.util.Scanner;
-
+import java.lang.jumTiket;  
 public class Ezcinema {
 
     public static String[] judFilm = {"Upin Ipin", "Iron Man 3", "Avengers End Game"};
     public static String[] tglFilm = {"Wed, 20-Sep", "Wed, 25-Sep", "Wed, 20-Okt"};
     public static String[] wktFilm = {"19:15", "20:50", "20:50"};
-    public static String[] Minuman = {"Soda", "Air Mineral", "Es Teh"};
-    public static String[] Makanan = {"Pop Corn Asin", "Pop Corn Karamel", "Roti Keju", "Sosis"};
+    public static String[] Minuman = {"Coca-Cola", "Air Mineral", "Es Teh Tarik", "Milk Shake", "Cappuccino", "Manggo Cream"};
+    public static String[] Makanan = {"PopCorn Asin", "PopCorn Karamel","PopCorn Original", "Roti Keju Manis", "Sosis Original"};
     public static String tmptDuduk[] = new String[32];
     public static String ordMakanan[] = new String[10];
     public static String ordMinuman[] = new String[10];
@@ -17,8 +16,8 @@ public class Ezcinema {
     public static String[][] st2 = new String[4][8];
     public static String[][] st3 = new String[4][8];
     public static char[] abjad = {'A', 'B', 'C', 'D', 'E'};
-    public static int[] hrgMinuman = {20000, 10000, 15000};
-    public static int[] hrgMakanan = {35000, 40000, 10000, 15000};
+    public static int[] hrgMinuman = {20000, 9000, 10000, 25000,12000,25000};
+    public static int[] hrgMakanan = {35000, 40000,30000, 10000, 15000};
     public static int ordHrgMakanan[] = new int[10];
     public static int ordJumMakanan[] = new int[10];
     public static int ordHrgMinuman[] = new int[10];
@@ -26,10 +25,9 @@ public class Ezcinema {
     public static int jumTiket, totHrgTiket, pilFilm;
     public static int totHrgMakanan;
     public static int totHrgMinuman;
-    public static int totPembelian, bayar, sisa;
     public static int indxSt, indxMakanan, indxMinuman;
-    public static int jumDiskon1 = 2, jumDiskon2 = 10, jumDiskon3 = 10;
-    public static boolean isDiskon = false, statChckSt = true;
+    public static int jumDiskon1 = 10, jumDiskon2 = 10, jumDiskon3 = 10;
+    public static boolean isDiskon = false;
 
     public static Scanner inInt = new Scanner(System.in);
     public static Scanner inStr = new Scanner(System.in);
@@ -39,7 +37,7 @@ public class Ezcinema {
         ResSt(2);
         ResSt(3);
         ResVariable();
-        AwalMenu();
+        Menu();
     }
     public static void AwalMenu(){
         do{
@@ -54,31 +52,26 @@ public class Ezcinema {
         System.out.println("2. Pesan Makanan");
         System.out.println("3. Pesan Minuman");
         System.out.println("4. Cetak Tiket & Struk");
-        do{
-            System.out.print("-----> Masukkan Pilihan anda : ");
-            pilInt = inInt.nextInt();
-            switch (pilInt) {
-                case 1:
-                    SelPesan();
-                    break;
-                case 2:
-                    SelMakanan();
-                    break;
-                case 3:
-                    SelMinuman();
-                    break;
-                case 4:
-                    SelTiket();
-                    break;
-                default : System.out.println("!!! INPUTAN ANDA SALAH !!!");
-            }
-        }while(true);
-        
+        System.out.print("-----> Masukkan Pilihan anda : ");
+        pilInt = inInt.nextInt();
+        switch (pilInt) {
+            case 1:
+                SelPesan();
+                break;
+            case 2:
+                SelMakanan();
+                break;
+            case 3:
+                SelMinuman();
+                break;
+            case 4:
+                SelTiket();
+                break;
+        }
     }
 
     public static void SelPesan() {
         String pilStr = null;
-        String  varKursi;
         int x = 0;
         int jml;
         System.out.println("\n-=-=-= Pilih Judul Film -=-=-=");
@@ -91,123 +84,158 @@ public class Ezcinema {
         CheckDiskon(pilFilm);
         GetSt(pilFilm);
         do {
-            do{
-                System.out.print("-----> Masukkan Kode Tempat Duduk : ");
-                varKursi = inStr.nextLine().toUpperCase();
-                statChckSt = CheckSt(varKursi, pilFilm);
-            }while(statChckSt);
-            statChckSt = true;
-            tmptDuduk[indxSt] = varKursi;
+            System.out.print("-----> Masukkan Kode Tempat Duduk : ");
+            tmptDuduk[indxSt] = inStr.nextLine().toUpperCase();
             indxSt++;
             x++;
-            SetSt(tmptDuduk, pilFilm);
         } while (x < jml);
         x = 0;
+        SetSt(tmptDuduk, pilFilm);
         Menu();
     }
 
     public static void SelMakanan() {
         String menu;
         System.out.println("\n-=-=-=-= MENU MAKANAN -=-=-=-= ");
-        System.out.println("1.Pop Corn Asin        Rp 35000");
-        System.out.println("2.Pop Corn Karamel     Rp 40000");
-        System.out.println("3.Roti Keju            Rp 10000");
-        System.out.println("4.Sosis                Rp 15000");
+        System.out.println("1. PopCorn Asin         Rp 35000");
+        System.out.println("2. PopCorn Karamel      Rp 40000");
+        System.out.println("3. PopCorn Original     Rp 30000");
+        System.out.println("4. Roti Keju Manis      Rp 10000");
+        System.out.println("5. Sosis Original       Rp 15000");
         System.out.println("");
 
         for (String i = "Y"; i.equals("Y") || i.equals("y");) {
-            System.out.print("-----> Masukkan Nomor Pesanan : ");
+            System.out.print("\n-----> Masukkan Nomor Makanan :");
             int inNomor = inInt.nextInt();
             if (inNomor == 1) {
-                menu = "Pop Corn Asin";
-                System.out.println("Pilihan anda nomor " + inNomor + menu);
-                System.out.print("Jumlah Pesanan");
+                menu = "PopCorn Asin\t";
+                System.out.println("\n Pilihan anda nomor : \n " + inNomor + " = "+menu);
+                System.out.print("\n Jumlah Pesanan : ");
                 ordMakanan[indxMakanan] = menu;
                 ordJumMakanan[indxMakanan] = inInt.nextInt();
                 ordHrgMakanan[indxMakanan] = hrgMakanan[0];
                 totHrgMakanan = totHrgMakanan + ordHrgMakanan[indxMakanan] * ordJumMakanan[indxMakanan];
                 indxMakanan++;
             } else if (inNomor == 2) {
-                menu = "Pop Corn Karamel";
-                System.out.println("Pilihan anda nomor " + inNomor + menu);
-                System.out.print("Jumlah Pesanan :");
+                menu = "PopCorn Karamel";
+                System.out.println("\n Pilihan anda nomor : \n " + inNomor +" = "+ menu);
+                System.out.print("\n Jumlah Pesanan : ");
                 ordMakanan[indxMakanan] = menu;
                 ordJumMakanan[indxMakanan] = inInt.nextInt();
                 ordHrgMakanan[indxMakanan] = hrgMakanan[1];
                 totHrgMakanan = totHrgMakanan + ordHrgMakanan[indxMakanan] * ordJumMakanan[indxMakanan];
                 indxMakanan++;
             } else if (inNomor == 3) {
-                menu = "Roti keju";
-                System.out.println("Pilihan anda nomor " + inNomor + menu);
-                System.out.print("Jumlah Pesanan :");
+                menu = "PopCorn Original";
+                System.out.println("\n Pilihan anda nomor : \n " + inNomor +" = "+ menu);
+                System.out.print("\n Jumlah Pesanan : ");
                 ordMakanan[indxMakanan] = menu;
                 ordJumMakanan[indxMakanan] = inInt.nextInt();
                 ordHrgMakanan[indxMakanan] = hrgMakanan[2];
                 totHrgMakanan = totHrgMakanan + ordHrgMakanan[indxMakanan] * ordJumMakanan[indxMakanan];
                 indxMakanan++;
             } else if (inNomor == 4) {
-                menu = "Sosis";
-                System.out.println("Pilihan anda nomor " + inNomor + menu);
-                System.out.print("Jumlah Pesanan");
+                menu = "Roti Keju Manis";
+                System.out.println("\n Pilihan anda nomor : \n " + inNomor +" = "+ menu);
+                System.out.print("\n Jumlah Pesanan : ");
                 ordMakanan[indxMakanan] = menu;
                 ordJumMakanan[indxMakanan] = inInt.nextInt();
                 ordHrgMakanan[indxMakanan] = hrgMakanan[3];
                 totHrgMakanan = totHrgMakanan + ordHrgMakanan[indxMakanan] * ordJumMakanan[indxMakanan];
                 indxMakanan++;
+            } else if (inNomor == 5) {
+                menu = "Sosis Original\t";
+                System.out.println("\n Pilihan anda nomor : \n " + inNomor +" = "+ menu);
+                System.out.print("\n Jumlah Pesanan : ");
+                ordMakanan[indxMakanan] = menu;
+                ordJumMakanan[indxMakanan] = inInt.nextInt();
+                ordHrgMakanan[indxMakanan] = hrgMakanan[4];
+                totHrgMakanan = totHrgMakanan + ordHrgMakanan[indxMakanan] * ordJumMakanan[indxMakanan];
+                indxMakanan++;
             } else {
-                System.out.println("!!! INPUTAN ANDA SALAH !!!");
+                System.out.println("Tidak Ada Menu Makanan\n");
             }
-            System.out.print("Apakah anda mau melanjutkan (Y/T) ? : ");
+            System.out.print("Pesan Makanan Lagi (Y/T) ? : ");
             i = inInt.next();
         }
-        System.out.println(totHrgMakanan);
+        System.out.println("\nTotal Makanan Anda = Rp. "+totHrgMakanan);
         Menu();
     }
 
     public static void SelMinuman() {
         String menu;
         System.out.println("\n-=-=-=-= MENU MINUMAN -=-=-=-= ");
-        System.out.println("1.Soda                  Rp 20000");
-        System.out.println("2.Air Mineral           Rp 10000");
-        System.out.println("3.Es Teh                Rp 15000");
+        System.out.println("1. Coca-Cola             Rp 20000");
+        System.out.println("2. Air Mineral           Rp 9000");
+        System.out.println("3. Es Teh Tarik          Rp 10000");
+        System.out.println("4. Milk Shake            Rp 25000");
+        System.out.println("5. Cappuccino            Rp 12000");
+        System.out.println("6. Manggo Cream          Rp 25000");
 
         for (String i = "Y"; i.equals("Y") || i.equals("y");) {
-            System.out.print("-----> Masukkan Nomor Pesanan : ");
+            System.out.print("\n-----> Masukkan Nomor Minuman: ");
             int inNomor = inInt.nextInt();
             if (inNomor == 1) {
-                menu = " Soda ";
-                System.out.println("Pilihan anda nomor " + inNomor + menu);
-                System.out.print("Jumlah Pesanan");
+                menu = "Coca-Cola";
+                System.out.println("\n Pilihan anda nomor : \n " + inNomor +" = "+ menu);
+                System.out.print("\n Jumlah Pesanan : ");
                 ordMinuman[indxMinuman] = menu;
                 ordJumMinuman[indxMinuman] = inInt.nextInt();
                 ordHrgMinuman[indxMinuman] = hrgMinuman[0];
                 totHrgMinuman = totHrgMinuman + ordHrgMinuman[indxMinuman] * ordJumMinuman[indxMinuman];
                 indxMinuman++;
             } else if (inNomor == 2) {
-                menu = " Air Mineral ";
-                System.out.println("Pilihan anda nomor " + inNomor + menu);
-                System.out.print("Jumlah Pesanan :");
+                menu = "Air Mineral";
+                System.out.println("\n Pilihan anda nomor : \n " + inNomor +" = "+ menu);
+                System.out.print("\n Jumlah Pesanan : ");
                 ordMinuman[indxMinuman] = menu;
                 ordJumMinuman[indxMinuman] = inInt.nextInt();
                 ordHrgMinuman[indxMinuman] = hrgMinuman[1];
                 totHrgMinuman = totHrgMinuman + ordHrgMinuman[indxMinuman] * ordJumMinuman[indxMinuman];
                 indxMinuman++;
             } else if (inNomor == 3) {
-                menu = " Es Teh ";
-                System.out.println("Pilihan anda nomor " + inNomor + menu);
-                System.out.print("Jumlah Pesanan");
+                menu = "Es Teh Tarik";
+                System.out.println("\n Pilihan anda nomor : \n " + inNomor +" = "+ menu);
+                System.out.print("\n Jumlah Pesanan : ");
                 ordMinuman[indxMinuman] = menu;
                 ordJumMinuman[indxMinuman] = inInt.nextInt();
                 ordHrgMinuman[indxMinuman] = hrgMinuman[2];
                 totHrgMinuman = totHrgMinuman + ordHrgMinuman[indxMinuman] * ordJumMinuman[indxMinuman];
                 indxMinuman++;
+            }else if (inNomor == 4) {
+                menu = "Milk Shake";
+                System.out.println("\n Pilihan anda nomor : \n " + inNomor +" = "+ menu);
+                System.out.print("\n Jumlah Pesanan : ");
+                ordMinuman[indxMinuman] = menu;
+                ordJumMinuman[indxMinuman] = inInt.nextInt();
+                ordHrgMinuman[indxMinuman] = hrgMinuman[3];
+                totHrgMinuman = totHrgMinuman + ordHrgMinuman[indxMinuman] * ordJumMinuman[indxMinuman];
+                indxMinuman++;
+            } else if (inNomor == 5) {
+                menu = "Cappuccino";
+                System.out.println("\n Pilihan anda nomor : \n " + inNomor +" = "+ menu);
+                System.out.print("\n Jumlah Pesanan : ");
+                ordMinuman[indxMinuman] = menu;
+                ordJumMinuman[indxMinuman] = inInt.nextInt();
+                ordHrgMinuman[indxMinuman] = hrgMinuman[4];
+                totHrgMinuman = totHrgMinuman + ordHrgMinuman[indxMinuman] * ordJumMinuman[indxMinuman];
+                indxMinuman++;
+            } else if (inNomor == 6) {
+                menu = "Maggo Cream";
+                System.out.println("\n Pilihan anda nomor : \n " + inNomor +" = "+ menu);
+                System.out.print("\n Jumlah Pesanan : ");
+                ordMinuman[indxMinuman] = menu;
+                ordJumMinuman[indxMinuman] = inInt.nextInt();
+                ordHrgMinuman[indxMinuman] = hrgMinuman[5];
+                totHrgMinuman = totHrgMinuman + ordHrgMinuman[indxMinuman] * ordJumMinuman[indxMinuman];
+                indxMinuman++;
             } else {
-                System.out.println("!!! INPUTAN ANDA SALAH !!!");
+                System.out.println("Tidak Ada Menu Minuman !");
             }
-            System.out.print("Apakah anda mau melanjutkan (Y/T) ? : ");
+            System.out.print("Pesan Minuman Lagi (Y/T) ? : ");
             i = inInt.next();
         }
-        System.out.println(totHrgMinuman);
+        System.out.println("\nTotal Minuman Anda = Rp. "+totHrgMinuman);
         Menu();
 
     }
@@ -216,9 +244,8 @@ public class Ezcinema {
         int hslFilm = pilFilm-1;
         int z = 1;
         String namaFilm = judFilm[hslFilm];
-        totPembelian = totHrgMakanan+totHrgMinuman+totHrgTiket;
-        Pembayaran();
         for (int x = 0; x < jumTiket; x++) {
+            System.out.println("");
             System.out.println("\n\n-=-=-=-= TIKET EZCINEMA -=-=-=-=");
             System.out.println(namaFilm.toUpperCase());
             System.out.println("TANGGAL   : " + tglFilm[hslFilm]);
@@ -227,36 +254,35 @@ public class Ezcinema {
             System.out.println("STUDIO    : " + pilFilm);
             System.out.println("-=-=-=-= TIKET EZCINEMA -=-=-=-=");
         }
-        System.out.println("\n          --- STRUK PEMBAYARAN ---");
-        System.out.println("              --- EZCINEMA ---");
-        System.out.println("\nNo     Keterangan      Jumlah       Harga");
+        System.out.println("\n \t \t ------STRUK PEMBAYARAN------");
+        System.out.println("\t \t \t   -EZCINEMA-");
+        System.out.println("\nNo \t Keterangan \t      Jumlah \t\t Harga");
 
         if (jumTiket != 0) {
             if(isDiskon == true){
-                System.out.println(z + ".    Tiket(Diskon 30%)" + jumTiket + "           Rp." + totHrgTiket);
+                System.out.println(z +"\t Tiket(Diskon 30%)"+"\t"+jumTiket+"\t \t Rp."+totHrgTiket);
             }else{
-                System.out.println(z + ".     Tiket           " + jumTiket + "           Rp." + totHrgTiket);
+                System.out.println(z +"\t Tiket            "+jumTiket+"\t Rp."+totHrgTiket);
             }
             z++;
         }
 
         for (int x = 0; x < ordMakanan.length; x++) {
             if (ordMakanan[x] != "") {
-                System.out.println(z + ".     " + ordMakanan[x] + "           " + ordJumMakanan[x] + "           Rp." + (ordHrgMakanan[x] * ordJumMakanan[x]));
+                System.out.print(z + "\t " + ordMakanan[x] + "\t" + ordJumMakanan[x] + "\t \t Rp." + (ordHrgMakanan[x] * ordJumMakanan[x])+"\n");
                 z++;
             }
         }
         for (int x = 0; x < ordMinuman.length; x++) {
             if (ordMinuman[x] != "") {
-                System.out.println(z + ".     " + ordMinuman[x] + "           " + ordJumMinuman[x] + "           Rp." + (ordHrgMinuman[x] * ordJumMinuman[x]));
+                System.out.print(z + "\t " + ordMinuman[x] + "\t \t" + ordJumMinuman[x] + "\t \t Rp." + (ordHrgMinuman[x] * ordJumMinuman[x])+"\n");
                 z++;
             }
         }
-        
-        System.out.println("\nTotal Pembelian : Rp." + totPembelian);
-        System.out.println("Total Bayar     : Rp." + bayar);
-        System.out.println("Total Kembalian : Rp. " + sisa);
-        System.out.println("-=-=-=-=-=-=-=-= TERIMAKASIH -=-=-=-=-=-=-=-=");
+        System.out.println("____________________________________________________________+");
+        System.out.println("\n Total Pembelian : \t \t \t \t Rp." + (totHrgMakanan+totHrgMinuman+totHrgTiket));
+        System.out.println("");
+        System.out.println("");
         ResVariable();
         AwalMenu();
     }
@@ -340,88 +366,13 @@ public class Ezcinema {
 
     }
 
-    public static boolean CheckSt(String kursi, int index) {
-        String[] arr = kursi.split("");
-        boolean check1 = false;
-        boolean check2 = false;
-        
-        for(int x = 0; x < arr.length; x++){
-            if(x == 0){
-                for(int y = 0; y < abjad.length; y++){
-                    if(arr[0].equals(abjad[y])){
-                        check1 = true;
-                        break;
-                    }
-                }
-            }else if(x == 1){
-                for(int y = 1; y <= 8; y++){
-                    String z = Integer.toString(y);
-                    if(arr[1].equals(z)){
-                        check1 = true;
-                        break;
-                    }
-                }
-            }else if(x == 2){
-                check1 = false;
-                check2 = false;
-                break;
+    public static boolean CheckSt(String tmptDuduk[]) {
+        for (int x = 0; x < tmptDuduk.length; x++) {
+            if (tmptDuduk[x].matches("\\[A-E][1-8]") == false) {
+                return false;
             }
         }
-        
-        if(check1 == true || check2 == true){
-            switch (index) {
-                case 1:
-                    for (int y = 0; y < st1.length; y++) {
-                        for (int z = 0; z < st1[0].length; z++) {
-                            String[] temp = st1[y][z].split("");
-                            if (temp[1].equals(arr[0]) && temp[2].equals(arr[1])) {
-                                if(temp[0].equals("[")){
-                                    return false;
-                                }else{
-                                    System.out.println("!!! MAAF KURSI TELAH DIPESAN !!!");
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case 2:
-                    for (int y = 0; y < st2.length; y++) {
-                        for (int z = 0; z < st2[0].length; z++) {
-                            String[] temp = st2[y][z].split("");
-                            if (temp[1].equals(arr[0]) && temp[2].equals(arr[1])) {
-                                if(temp[0].equals("[")){
-                                    return false;
-                                }else{
-                                    System.out.println("!!! MAAF KURSI TELAH DIPESAN !!!");
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case 3:
-                    for (int y = 0; y < st3.length; y++) {
-                        for (int z = 0; z < st3[0].length; z++) {
-                            String[] temp = st3[y][z].split("");
-                            if (temp[1].equals(arr[0]) && temp[2].equals(arr[1])) {
-                                if(temp[0].equals("[")){
-                                    return false;
-                                }else{
-                                    System.out.println("!!! MAAF KURSI TELAH DIPESAN !!!");
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                    break;
-            }
-            return false;
-        }else{
-            System.out.println("!!! INPUTAN ANDA SALAH !!!");
-            return true;
-        }
-        
+        return true;
     }
     public static void CheckDiskon(int pilFilm){
         switch(pilFilm){
@@ -465,7 +416,7 @@ public class Ezcinema {
                         st1[x][y] = "[" + abjad[x] + (y + 1) + "]";
                     }
                 }
-                jumDiskon1 = 3;
+                jumDiskon1 = 10;
                 break;
             case 2:
                 for (int x = 0; x < 4; x++) {
@@ -473,7 +424,7 @@ public class Ezcinema {
                         st2[x][y] = "[" + abjad[x] + (y + 1) + "]";
                     }
                 }
-                jumDiskon2 = 3;
+                jumDiskon2 = 10;
                 break;
             case 3:
                 for (int x = 0; x < 4; x++) {
@@ -481,17 +432,9 @@ public class Ezcinema {
                         st3[x][y] = "[" + abjad[x] + (y + 1) + "]";
                     }
                 }
-                jumDiskon3 = 3;
+                jumDiskon3 = 10;
                 break;
         }
-    }
-    public static void Pembayaran(){
-        
-        System.out.println("\n>>>>>> Total Pembelian : Rp. " + totPembelian);
-        System.out.print("-----> Bayar             : Rp. ");
-        bayar = inInt.nextInt();
-        sisa = bayar - totPembelian;
-        
     }
     public static void ResVariable(){
         jumTiket = 0;
@@ -499,9 +442,6 @@ public class Ezcinema {
         pilFilm = 1;
         totHrgMakanan = 0;
         totHrgMinuman = 0;
-        totPembelian = 0;
-        bayar = 0;
-        sisa = 0;
         indxSt = 0;
         indxMakanan = 0;
         indxMinuman = 0;
